@@ -8,25 +8,21 @@ export default function Dashboard() {
   useEffect(() => {
     API.get("/cards")
       .then((res) => {
+        console.log("CARDS FROM API 👉", res.data); // DEBUG
         setCards(res.data);
       })
       .catch((err) => {
-        console.error("API error", err);
+        console.error("API ERROR 👉", err);
       });
   }, []);
 
   const totalCards = cards.length;
-  const activeCards = cards.filter((c) => c.status === "active").length;
+  const activeCards = cards.filter(c => c.status === "active").length;
 
-  const parseDate = (d) => {
-    if (!d) return null;
-    const [day, month, year] = d.split("/");
-    return new Date(`${year}-${month}-${day}`);
-  };
-
-  const nearExpiry = cards.filter((c) => {
-    const expiry = parseDate(c.expiryDate);
-    if (!expiry) return false;
+  const nearExpiry = cards.filter(c => {
+    if (!c.expiryDate) return false;
+    const [d, m, y] = c.expiryDate.split("/");
+    const expiry = new Date(`${y}-${m}-${d}`);
     const diff = (expiry - new Date()) / (1000 * 60 * 60 * 24);
     return diff <= 30 && diff >= 0;
   }).length;
@@ -60,7 +56,7 @@ export default function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {cards.map((card) => (
+            {cards.map(card => (
               <CardItem key={card._id} card={card} />
             ))}
           </tbody>
@@ -72,15 +68,13 @@ export default function Dashboard() {
 
 function Stat({ title, value }) {
   return (
-    <div
-      style={{
-        background: "#fff",
-        padding: 20,
-        borderRadius: 12,
-        minWidth: 180,
-        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-      }}
-    >
+    <div style={{
+      background: "#fff",
+      padding: 20,
+      borderRadius: 12,
+      minWidth: 180,
+      boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+    }}>
       <h2>{value}</h2>
       <p>{title}</p>
     </div>
