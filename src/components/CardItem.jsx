@@ -3,8 +3,7 @@ export default function CardItem({ card }) {
     <tr>
       <td>{card.cardNumber}</td>
       <td>
-        <b>{card.ownerName}</b>
-        <br />
+        <b>{card.ownerName}</b><br />
         <small>{card.mobile}</small>
       </td>
       <td>{card.vehicleNumber}</td>
