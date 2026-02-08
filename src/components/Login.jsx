@@ -8,7 +8,9 @@ export default function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 🔐 TEMP HARDCODED LOGIN (abhi ke liye)
     if (email === "admin@parkping.com" && password === "admin123") {
+      setError("");
       onLogin();
     } else {
       setError("Invalid email or password");
@@ -16,30 +18,53 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>ParkPing Admin</h1>
+    <div className="login-wrapper">
+      <div className="login-card">
+        {/* Logo (optional) */}
+        {/* <img src="/logo.png" alt="ParkPing" height="40" /> */}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <h1>ParkPing Admin</h1>
+        <p>Secure access to your command center</p>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="admin@parkping.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br /><br />
+        {error && <div className="error">{error}</div>}
 
-        <input
-          type="password"
-          placeholder="admin123"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br /><br />
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label>Email Address *</label>
+            <input
+              type="email"
+              placeholder="admin@parkping.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <button>Login</button>
-      </form>
+          <div className="input-group">
+            <label>Password *</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="actions">
+            <label>
+              <input type="checkbox" /> Remember me
+            </label>
+            <span style={{ color: "#22c55e", cursor: "pointer" }}>
+              Forgot password?
+            </span>
+          </div>
+
+          <button type="submit" className="login-btn">
+            Sign In →
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
