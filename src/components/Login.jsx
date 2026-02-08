@@ -8,7 +8,6 @@ export default function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 🔐 TEMP HARDCODED LOGIN
     if (email === "admin@parkping.com" && password === "admin123") {
       onLogin();
     } else {
@@ -17,37 +16,30 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="login-wrapper">
-      <div className="login-card">
-        <h1>ParkPing Admin</h1>
-        <p>Secure access to your command center</p>
+    <div style={{ padding: 40 }}>
+      <h1>ParkPing Admin</h1>
 
-        {error && <div className="error">{error}</div>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Email Address *</label>
-            <input
-              type="email"
-              placeholder="admin@parkping.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="admin@parkping.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br /><br />
 
-          <div className="input-group">
-            <label>Password *</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+        <input
+          type="password"
+          placeholder="admin123"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br /><br />
 
-          <button className="login-btn">Sign In →</button>
-        </form>
-      </div>
+        <button>Login</button>
+      </form>
     </div>
   );
 }
