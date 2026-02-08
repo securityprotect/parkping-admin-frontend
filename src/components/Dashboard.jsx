@@ -7,17 +7,27 @@ export default function Dashboard() {
 
   useEffect(() => {
     API.get("/cards")
-      .then((res) => setCards(res.data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        setCards(res.data);
+      })
+      .catch((err) => {
+        console.error("API error", err);
+      });
   }, []);
 
   const totalCards = cards.length;
   const activeCards = cards.filter((c) => c.status === "active").length;
 
+  const parseDate = (d) => {
+    if (!d) return null;
+    const [day, month, year] = d.split("/");
+    return new Date(`${year}-${month}-${day}`);
+  };
+
   const nearExpiry = cards.filter((c) => {
-    const expiry = new Date(c.expiryDate);
-    const today = new Date();
-    const diff = (expiry - today) / (1000 * 60 * 60 * 24);
+    const expiry = parseDate(c.expiryDate);
+    if (!expiry) return false;
+    const diff = (expiry - new Date()) / (1000 * 60 * 60 * 24);
     return diff <= 30 && diff >= 0;
   }).length;
 
@@ -36,6 +46,7 @@ export default function Dashboard() {
       {/* TABLE */}
       <div style={{ marginTop: 40 }}>
         <h2>Cards</h2>
+
         <table width="100%" border="1" cellPadding="10">
           <thead>
             <tr>
@@ -70,7 +81,7 @@ function Stat({ title, value }) {
         boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
       }}
     >
-      <h3>{value}</h3>
+      <h2>{value}</h2>
       <p>{title}</p>
     </div>
   );
