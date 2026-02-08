@@ -6,9 +6,11 @@ export default function Dashboard() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
+    console.log("VITE_API_URL 👉", import.meta.env.VITE_API_URL);
+
     API.get("/cards")
       .then((res) => {
-        console.log("CARDS FROM API 👉", res.data); // DEBUG
+        console.log("API RESPONSE 👉", res.data);
         setCards(res.data);
       })
       .catch((err) => {
@@ -16,52 +18,40 @@ export default function Dashboard() {
       });
   }, []);
 
-  const totalCards = cards.length;
-  const activeCards = cards.filter(c => c.status === "active").length;
-
-  const nearExpiry = cards.filter(c => {
-    if (!c.expiryDate) return false;
-    const [d, m, y] = c.expiryDate.split("/");
-    const expiry = new Date(`${y}-${m}-${d}`);
-    const diff = (expiry - new Date()) / (1000 * 60 * 60 * 24);
-    return diff <= 30 && diff >= 0;
-  }).length;
-
   return (
     <div style={{ padding: 30 }}>
       <h1>Card Management Console</h1>
       <p>Complete operational control center</p>
 
-      {/* STATS */}
-      <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
-        <Stat title="Total Cards" value={totalCards} />
-        <Stat title="Active Cards" value={activeCards} />
-        <Stat title="Near Expiry" value={nearExpiry} />
+      <div style={{ display: "flex", gap: 20 }}>
+        <Stat title="Total Cards" value={cards.length} />
+        <Stat
+          title="Active Cards"
+          value={cards.filter(c => c.status === "active").length}
+        />
+        <Stat title="Near Expiry" value={0} />
       </div>
 
-      {/* TABLE */}
-      <div style={{ marginTop: 40 }}>
-        <h2>Cards</h2>
+      <h2 style={{ marginTop: 40 }}>Cards</h2>
 
-        <table width="100%" border="1" cellPadding="10">
-          <thead>
-            <tr>
-              <th>Card ID</th>
-              <th>Owner</th>
-              <th>Vehicle</th>
-              <th>Plan</th>
-              <th>Status</th>
-              <th>Activation</th>
-              <th>Expiry</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cards.map(card => (
-              <CardItem key={card._id} card={card} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <table width="100%" border="1">
+        <thead>
+          <tr>
+            <th>Card ID</th>
+            <th>Owner</th>
+            <th>Vehicle</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Activation</th>
+            <th>Expiry</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cards.map(card => (
+            <CardItem key={card._id} card={card} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -71,9 +61,8 @@ function Stat({ title, value }) {
     <div style={{
       background: "#fff",
       padding: 20,
-      borderRadius: 12,
-      minWidth: 180,
-      boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+      borderRadius: 10,
+      minWidth: 150
     }}>
       <h2>{value}</h2>
       <p>{title}</p>
