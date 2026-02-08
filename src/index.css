@@ -1,54 +1,208 @@
 body {
   margin: 0;
   background: #f6f8fb;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #0f172a;
 }
 
 .dashboard {
   padding: 32px;
 }
 
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
 .title {
-  font-size: 28px;
-  margin-bottom: 4px;
+  font-size: 30px;
+  margin: 0 0 6px;
 }
 
 .subtitle {
   color: #64748b;
-  margin-bottom: 24px;
+  margin: 0;
+}
+
+.header-pill {
+  background: #fff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  font-size: 13px;
+  color: #334155;
 }
 
 /* STATS */
 .stats {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .stats-card {
   background: #fff;
   padding: 20px;
-  border-radius: 12px;
-  width: 180px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stats-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .stats-value {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
 }
 
 .stats-title {
   color: #64748b;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.stats-description {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.stats-icon {
+  font-size: 24px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
+
+.stats-trend {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.stats-card--primary {
+  border-left: 4px solid #2563eb;
+}
+
+.stats-card--success {
+  border-left: 4px solid #16a34a;
+}
+
+.stats-card--info {
+  border-left: 4px solid #0ea5e9;
+}
+
+.stats-card--warning {
+  border-left: 4px solid #f97316;
+}
+
+/* INSIGHTS */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.insight-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.insight-title {
   font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.insight-metric {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.insight-subtext {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.progress {
+  background: #e2e8f0;
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.progress-bar.premium {
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+}
+
+.progress-bar.active {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.progress-bar.users {
+  background: linear-gradient(90deg, #0ea5e9, #2563eb);
 }
 
 /* TABLE */
 .table-wrapper {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.table-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.table-subtitle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.table-badge {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .cards-table {
@@ -108,11 +262,19 @@ body {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .status.active {
   background: #e7f9ef;
   color: #16a34a;
+}
+
+.status.inactive,
+.status.expired,
+.status.pending {
+  background: #fff3e6;
+  color: #f97316;
 }
 
 /* ACTIONS */
@@ -121,4 +283,16 @@ body {
   gap: 12px;
   font-size: 18px;
   cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
