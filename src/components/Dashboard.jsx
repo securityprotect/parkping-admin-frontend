@@ -6,7 +6,13 @@ export default function Dashboard() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    console.log("VITE_API_URL 👉", import.meta.env.VITE_API_URL);
+  fetch("https://parkping-admin-backend.vercel.app/api/cards")
+    .then(res => res.json())
+    .then(data => {
+      console.log("DIRECT FETCH 👉", data);
+      setCards(data);
+    });
+}, []);
 
     API.get("/cards")
       .then((res) => {
@@ -69,3 +75,4 @@ function Stat({ title, value }) {
     </div>
   );
 }
+
