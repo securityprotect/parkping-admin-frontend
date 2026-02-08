@@ -3,22 +3,9 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true); // TEMP AUTO LOGIN
 
-  // 🔐 Temporary hardcoded login handler
-  const handleLogin = () => {
-    setLoggedIn(true);
-  };
-
-  return (
-    <>
-      {loggedIn ? (
-        <Dashboard />
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
-    </>
-  );
+  return loggedIn ? <Dashboard /> : <Login onLogin={() => setLoggedIn(true)} />;
 }
 
 export default App;
