@@ -1,4 +1,4 @@
-export default function CardItem({ card }) {
+export default function CardItem({ card, onEdit, onToggleStatus }) {
   return (
     <tr>
       <td><b>{card.cardNumber}</b></td>
@@ -35,10 +35,24 @@ export default function CardItem({ card }) {
 
       <td>{card.activationDate}</td>
       <td>{card.expiryDate}</td>
-
-      <td>
+       <td>
         <div className="actions">
-          👁️ ✏️
+          <button
+            className="icon-button"
+            type="button"
+            onClick={() => onEdit(card)}
+            title="Edit card details"
+          >
+            ✏️
+          </button>
+          <button
+            className="icon-button"
+            type="button"
+            onClick={() => onToggleStatus(card)}
+            title={card.status === "active" ? "Disable card" : "Activate card"}
+          >
+            {card.status === "active" ? "🚫" : "✅"}
+          </button>
         </div>
       </td>
     </tr>
